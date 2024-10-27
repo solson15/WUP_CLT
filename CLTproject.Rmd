@@ -1,12 +1,12 @@
 ---
 title: "CLT_WUP"
-author: "Your Name"
+author: "Shawn Olson"
 output: 
   html_document:
     number_sections: true
     toc: true
     toc_depth: 5
-date: "`r Sys.Date()`"    
+date: "10/26/24"    
     
 ---
 
@@ -54,8 +54,8 @@ p <- ggplot(my1000, aes(x=k2)) +
 p
 
 # Add mean line
-  geom_vline(aes(xintercept=mean(k2)),
-            color="blue", linetype="dashed", size=1)
+ geom_vline(aes(xintercept=mean(k2)),
+color="blue", linetype="dashed", size=1)
 print(paste('mean = ', mean(my1000$k2),' sd = ',sd(my1000$k2)))
 
 ```
@@ -85,5 +85,53 @@ print(paste('mean = ', mean(my1000$k4),' sd = ',sd(my1000$k4)))
 ```
 
 ### In this case the stdev was cut in half because the sample size was four. This is what the central limit theorem says. There are also 5 peaks. They go from FFFF,to FFFM, to FFMM to FMMM and finally MMMM.
+
+
+```{r}
+numb=9
+Hdata = Homers_data[sample(1:1000, size=numb*1000, replace=T),"kkardashtemp"]
+mdata <-matrix(Hdata,nrow=1000,ncol=numb)
+x.avg <- apply(mdata,1,mean)
+my1000$k9 = x.avg
+
+p <- ggplot(my1000, aes(x=k9), (Col=sex))+
+geom_density()
+
+# Add mean line
+geom_vline(aes(xintercept=mean(k9)),
+color="blue", linetype="dashed", size=1)
+p + ggtitle("n = 9") +
+xlab("temperature") + ylab("desnity")
+
+print(paste('mean = ', mean(my1000$k9),' sd = ',sd(my1000$k9)))
+
+```
+
+The previous graph show that the mean is getting closer and closer to 50 and standard deviation is decreasing which is in according with CLT theory. The standard deviation was as expected, because the sample standard deviation was 41.38 and when divided by square root 9 (the sample size) it equal approximately 13.95571734 , which is close to the results which is approximately 14. overall, the graph is getting more symmetrical.
+
+
+```{r}
+numb=16
+Hdata = Homers_data[sample(1:1000, size=numb*1000, replace=T),"kkardashtemp"]
+mdata <-matrix(Hdata,nrow=1000,ncol=numb)
+x.avg <- apply(mdata,1,mean)
+my1000$k16= x.avg
+
+p <- ggplot(my1000, aes(x=k16), (Col=sex))+
+geom_density()
+
+# Add mean line
+geom_vline(aes(xintercept=mean(k9)),
+color="blue", linetype="dashed", size=1)
+p + ggtitle("n = 16") +
+xlab("temperature") + ylab("desnity")
+
+print(paste('mean = ', mean(my1000$k16),' sd = ',sd(my1000$k16)))
+
+```
+
+The graph is looking more symmetrical, because now we are using 16 samples at a time which gives for more chances for opinions discrepancies. And the standard deviation is decreasing as expected because we are dividing by a longer number. In this case it's the square root of 16 which equals 4. And it's closer to our expected value, which is 10.466788.
+
+
 
 # Now finish by adding blocks with numb being 9, then 16, 25, and 36. be sure to mention how the standard deviation progresses as the sample size changes,
